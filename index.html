@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ACCÈS SYSTÈME</title>
+    <title>root@BLACKHAT-SERVER</title>
     <style>
         * {
             margin: 0;
@@ -16,7 +16,6 @@
             color: #0f0;
             font-family: 'Courier New', monospace;
             overflow: hidden;
-            cursor: crosshair;
         }
 
         .matrix-bg {
@@ -25,7 +24,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            opacity: 0.1;
+            opacity: 0.08;
             z-index: 0;
         }
 
@@ -34,113 +33,88 @@
             z-index: 1;
             padding: 20px;
             height: 100vh;
-            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
         }
 
         .header {
             border: 2px solid #0f0;
-            padding: 20px;
-            margin-bottom: 20px;
-            text-align: center;
-            animation: flicker 0.1s infinite;
-            box-shadow: 0 0 20px #0f0;
-        }
-
-        @keyframes flicker {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.95; }
-        }
-
-        .warning {
-            color: #f00;
-            font-size: 24px;
-            animation: blink 1s infinite;
-            margin: 20px 0;
-        }
-
-        @keyframes blink {
-            0%, 50%, 100% { opacity: 1; }
-            25%, 75% { opacity: 0; }
-        }
-
-        .terminal {
-            background: rgba(0, 20, 0, 0.8);
-            border: 1px solid #0f0;
             padding: 15px;
-            margin: 10px 0;
-            min-height: 200px;
-            box-shadow: 0 0 10px #0f0;
+            margin-bottom: 15px;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+            background: rgba(0, 20, 0, 0.9);
         }
 
-        .line {
+        .header-line {
+            display: flex;
+            justify-content: space-between;
             margin: 5px 0;
+            font-size: 14px;
         }
 
-        .prompt::before {
-            content: "root@HACKER:~$ ";
+        .status {
             color: #ff0;
         }
 
-        .progress-bar {
-            width: 100%;
-            height: 30px;
-            background: #001100;
+        .terminal {
+            flex: 1;
+            background: rgba(0, 10, 0, 0.95);
             border: 2px solid #0f0;
-            margin: 20px 0;
-            position: relative;
-            overflow: hidden;
+            padding: 15px;
+            overflow-y: auto;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
+            margin-bottom: 10px;
         }
 
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #0f0, #0a0);
-            width: 0%;
-            transition: width 0.3s;
-            animation: pulse 1s infinite;
+        .line {
+            margin: 3px 0;
+            word-wrap: break-word;
         }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
+        .input-line {
+            display: flex;
+            align-items: center;
         }
 
-        .btn {
-            background: #0f0;
-            color: #000;
+        .prompt {
+            color: #ff0;
+            margin-right: 5px;
+        }
+
+        #commandInput {
+            background: transparent;
             border: none;
-            padding: 15px 30px;
+            color: #0f0;
             font-family: 'Courier New', monospace;
-            font-size: 18px;
-            cursor: pointer;
-            margin: 10px;
-            box-shadow: 0 0 10px #0f0;
-            transition: all 0.3s;
+            font-size: 14px;
+            outline: none;
+            flex: 1;
+            caret-color: #0f0;
         }
 
-        .btn:hover {
-            background: #0a0;
-            box-shadow: 0 0 20px #0f0;
-            transform: scale(1.05);
+        .cursor {
+            display: inline-block;
+            width: 8px;
+            height: 16px;
+            background: #0f0;
+            animation: blink 1s infinite;
         }
 
-        .glitch {
-            animation: glitch 0.5s infinite;
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
         }
 
-        @keyframes glitch {
-            0% { transform: translate(0); }
-            20% { transform: translate(-2px, 2px); }
-            40% { transform: translate(-2px, -2px); }
-            60% { transform: translate(2px, 2px); }
-            80% { transform: translate(2px, -2px); }
-            100% { transform: translate(0); }
+        .error {
+            color: #f00;
         }
 
-        .skull {
-            font-size: 100px;
-            text-align: center;
-            margin: 20px;
-            display: none;
+        .success {
+            color: #0ff;
+        }
+
+        .warning {
+            color: #ff0;
         }
 
         .scanline {
@@ -149,14 +123,35 @@
             left: 0;
             width: 100%;
             height: 2px;
-            background: rgba(0, 255, 0, 0.3);
-            animation: scan 4s linear infinite;
+            background: rgba(0, 255, 0, 0.2);
+            animation: scan 3s linear infinite;
             z-index: 999;
+            pointer-events: none;
         }
 
         @keyframes scan {
             0% { top: 0; }
             100% { top: 100%; }
+        }
+
+        .stats {
+            display: flex;
+            gap: 20px;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .stat-item {
+            color: #0a0;
+        }
+
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.97; }
+        }
+
+        body {
+            animation: flicker 0.15s infinite;
         }
     </style>
 </head>
@@ -165,116 +160,332 @@
     <div class="scanline"></div>
     
     <div class="container">
-        <div class="header glitch">
-            <h1>⚠️ SYSTÈME PIRATÉ ⚠️</h1>
-            <p class="warning">ACCÈS NON AUTORISÉ DÉTECTÉ</p>
+        <div class="header">
+            <div class="header-line">
+                <span>BLACKHAT TERMINAL v3.7.2</span>
+                <span class="status">STATUS: <span id="status">ONLINE</span></span>
+            </div>
+            <div class="header-line">
+                <span>USER: root@anonymous</span>
+                <span>IP: 127.0.0.1 (MASKED)</span>
+            </div>
+            <div class="stats">
+                <span class="stat-item">BOTNET: <span id="botnet">0</span> nodes</span>
+                <span class="stat-item">BANDWIDTH: <span id="bandwidth">0</span> Gbps</span>
+                <span class="stat-item">TARGETS: <span id="targets">0</span></span>
+            </div>
         </div>
 
         <div class="terminal" id="terminal">
-            <div class="line prompt">initializing hack sequence...</div>
+            <div class="line success">======================================</div>
+            <div class="line success">   BLACKHAT HACKING FRAMEWORK 2025   </div>
+            <div class="line success">======================================</div>
+            <div class="line">Système initialisé avec succès</div>
+            <div class="line">Chargement des modules d'attaque...</div>
+            <div class="line">Connexion au réseau TOR établie</div>
+            <div class="line warning">Attention: Toutes les actions sont anonymes</div>
+            <div class="line"></div>
+            <div class="line">Commandes disponibles:</div>
+            <div class="line">  /ddos [target] - Lancer une attaque DDoS</div>
+            <div class="line">  /scan [ip] - Scanner un réseau</div>
+            <div class="line">  /exploit [target] - Exploiter une faille</div>
+            <div class="line">  /botnet - Afficher le botnet</div>
+            <div class="line">  /payload - Déployer un payload</div>
+            <div class="line">  /crack - Cracker des mots de passe</div>
+            <div class="line">  /ransomware - Déployer un ransomware</div>
+            <div class="line">  /help - Aide complète</div>
+            <div class="line"></div>
         </div>
 
-        <div class="progress-bar">
-            <div class="progress-fill" id="progress"></div>
+        <div class="input-line">
+            <span class="prompt">root@BLACKHAT:~#</span>
+            <input type="text" id="commandInput" autofocus>
         </div>
-
-        <div style="text-align: center;">
-            <button class="btn" onclick="startHack()">🔓 LANCER L'ATTAQUE</button>
-            <button class="btn" onclick="abort()">💀 TOUT DÉTRUIRE</button>
-        </div>
-
-        <div class="skull" id="skull">☠️</div>
     </div>
 
     <script>
         const terminal = document.getElementById('terminal');
-        const progress = document.getElementById('progress');
-        const skull = document.getElementById('skull');
-        
-        const messages = [
-            "Connexion au serveur cible...",
-            "Contournement du firewall... OK",
-            "Injection SQL en cours... ✓",
-            "Extraction des données sensibles...",
-            "Déchiffrement des mots de passe... 47%",
-            "Accès administrateur obtenu... ✓",
-            "Installation du backdoor...",
-            "Initialisation du botnet... 2847 machines",
-            "Démarrage attaque DDoS massive...",
-            "Envoi de 50 000 requêtes/sec...",
-            "Surcharge des serveurs cibles... 78%",
-            "Bande passante saturée à 95%",
-            "Serveurs victimes en train de crasher...",
-            "Effacement des logs système...",
-            "Téléchargement de la base de données...",
-            "Déploiement du ransomware... ⚠️",
-            "ALERTE: Système de sécurité désactivé ✓",
-            "Propagation aux autres machines...",
-            "Contrôle total établi... 100%",
-        ];
+        const input = document.getElementById('commandInput');
+        const statusEl = document.getElementById('status');
+        const botnetEl = document.getElementById('botnet');
+        const bandwidthEl = document.getElementById('bandwidth');
+        const targetsEl = document.getElementById('targets');
 
-        let messageIndex = 0;
-        let hackInterval;
-        let progressValue = 0;
+        let botnetSize = 0;
+        let attackRunning = false;
 
-        function addLine(text, isPrompt = true) {
+        function addLine(text, className = '') {
             const line = document.createElement('div');
-            line.className = isPrompt ? 'line prompt' : 'line';
+            line.className = 'line ' + className;
             line.textContent = text;
-            line.style.color = Math.random() > 0.5 ? '#0f0' : '#ff0';
             terminal.appendChild(line);
             terminal.scrollTop = terminal.scrollHeight;
         }
 
-        function startHack() {
-            terminal.innerHTML = '<div class="line prompt">Démarrage de l\'attaque...</div>';
-            messageIndex = 0;
-            progressValue = 0;
-            skull.style.display = 'none';
-            
-            hackInterval = setInterval(() => {
-                if (messageIndex < messages.length) {
-                    addLine(messages[messageIndex]);
-                    messageIndex++;
-                    progressValue += (100 / messages.length);
-                    progress.style.width = progressValue + '%';
-                    
-                    if (messageIndex === messages.length - 2) {
-                        setTimeout(() => {
-                            skull.style.display = 'block';
-                            document.body.style.background = '#f00';
-                            setTimeout(() => {
-                                document.body.style.background = '#000';
-                            }, 200);
-                        }, 500);
+        function typeWriter(text, className = '', delay = 30) {
+            return new Promise((resolve) => {
+                const line = document.createElement('div');
+                line.className = 'line ' + className;
+                terminal.appendChild(line);
+                
+                let i = 0;
+                const interval = setInterval(() => {
+                    if (i < text.length) {
+                        line.textContent += text[i];
+                        i++;
+                        terminal.scrollTop = terminal.scrollHeight;
+                    } else {
+                        clearInterval(interval);
+                        resolve();
                     }
-                } else {
-                    clearInterval(hackInterval);
-                }
-            }, 800);
+                }, delay);
+            });
         }
 
-        function abort() {
-            clearInterval(hackInterval);
-            terminal.innerHTML = '';
-            for (let i = 0; i < 20; i++) {
-                addLine('SYSTEM FAILURE ' + '█'.repeat(Math.random() * 50));
+        async function executeDDoS(target) {
+            if (attackRunning) {
+                addLine('Une attaque est déjà en cours!', 'error');
+                return;
             }
-            skull.style.display = 'block';
+
+            attackRunning = true;
+            statusEl.textContent = 'ATTACKING';
+            statusEl.style.color = '#f00';
+
+            addLine('');
+            await typeWriter('[*] Initialisation de l\'attaque DDoS...', 'warning', 20);
+            await sleep(500);
+
+            // Recrutement du botnet
+            addLine('[+] Recrutement des machines zombies...', 'success');
+            for (let i = 0; i < 5; i++) {
+                await sleep(300);
+                botnetSize += Math.floor(Math.random() * 1000) + 500;
+                botnetEl.textContent = botnetSize;
+                addLine(`    [+] ${botnetSize} machines compromises`, 'success');
+            }
+
+            await sleep(500);
+            addLine('[*] Configuration des vecteurs d\'attaque...', 'warning');
+            await sleep(400);
+
+            const attackTypes = ['SYN Flood', 'UDP Flood', 'HTTP GET Flood', 'Slowloris', 'DNS Amplification'];
+            for (const type of attackTypes) {
+                await sleep(200);
+                addLine(`    [✓] ${type} activé`, 'success');
+            }
+
+            await sleep(500);
+            addLine('');
+            addLine('[!!!] ATTAQUE LANCÉE [!!!]', 'error');
+            addLine('');
+
+            // Simulation de l'attaque
+            targetsEl.textContent = '1';
+            for (let i = 0; i < 15; i++) {
+                await sleep(400);
+                const bandwidth = (Math.random() * 50 + 20).toFixed(1);
+                bandwidthEl.textContent = bandwidth;
+                
+                const packets = Math.floor(Math.random() * 100000) + 50000;
+                const responses = Math.floor(Math.random() * 1000);
+                
+                addLine(`[${new Date().toLocaleTimeString()}] Envoi de ${packets} paquets/sec | Réponses: ${responses} | Load: ${(Math.random() * 100).toFixed(0)}%`);
+            }
+
+            await sleep(500);
+            addLine('');
+            addLine('[!!!] SERVEUR CIBLE HORS LIGNE [!!!]', 'error');
+            addLine('[*] Saturation réussie à 100%', 'success');
+            addLine('[*] Connexions épuisées', 'success');
+            addLine('[*] Mémoire serveur saturée', 'success');
             
-            let flashCount = 0;
-            const flashInterval = setInterval(() => {
-                document.body.style.background = flashCount % 2 === 0 ? '#f00' : '#000';
-                flashCount++;
-                if (flashCount > 10) {
-                    clearInterval(flashInterval);
-                    document.body.style.background = '#000';
-                    addLine('😂 TU CROYAIS QUOI ? TROP FACILE !', false);
-                }
-            }, 200);
+            await sleep(1000);
+            addLine('');
+            addLine('[+] Arrêt de l\'attaque...', 'warning');
+            await sleep(500);
+            addLine('[+] Dispersion du botnet...', 'success');
+            await sleep(500);
+            addLine('[+] Effacement des traces...', 'success');
+            
+            attackRunning = false;
+            statusEl.textContent = 'ONLINE';
+            statusEl.style.color = '#ff0';
+            addLine('');
         }
 
-        // Animation Matrix en arrière-plan
+        async function executeScan(ip) {
+            addLine('');
+            await typeWriter(`[*] Scan du réseau ${ip || '192.168.1.0/24'}...`, 'warning', 20);
+            await sleep(500);
+            
+            const ports = [21, 22, 23, 25, 80, 443, 3306, 8080, 3389];
+            for (const port of ports) {
+                await sleep(200);
+                const status = Math.random() > 0.6 ? 'OPEN' : 'CLOSED';
+                const color = status === 'OPEN' ? 'success' : '';
+                addLine(`    Port ${port}: ${status}`, color);
+            }
+            
+            await sleep(300);
+            addLine('[+] Scan terminé. Vulnérabilités détectées!', 'success');
+            addLine('');
+        }
+
+        async function executeExploit(target) {
+            addLine('');
+            await typeWriter('[*] Recherche de vulnérabilités...', 'warning', 20);
+            await sleep(800);
+            
+            const vulns = [
+                'CVE-2024-1234 (SQL Injection)',
+                'CVE-2024-5678 (Buffer Overflow)',
+                'CVE-2024-9012 (RCE via Upload)'
+            ];
+            
+            for (const vuln of vulns) {
+                await sleep(400);
+                addLine(`    [!] ${vuln}`, 'error');
+            }
+            
+            await sleep(500);
+            addLine('[*] Exploitation en cours...', 'warning');
+            await sleep(1000);
+            addLine('[+] Shell root obtenu!', 'success');
+            addLine('[+] Accès administrateur établi', 'success');
+            addLine('');
+        }
+
+        async function executePayload() {
+            addLine('');
+            await typeWriter('[*] Déploiement du payload...', 'warning', 20);
+            await sleep(500);
+            
+            const steps = [
+                'Injection du code malveillant',
+                'Bypass de l\'antivirus',
+                'Persistence système établie',
+                'Backdoor installé sur port 4444',
+                'Keylogger actif'
+            ];
+            
+            for (const step of steps) {
+                await sleep(300);
+                addLine(`    [+] ${step}`, 'success');
+            }
+            
+            addLine('[+] Payload déployé avec succès!', 'success');
+            addLine('');
+        }
+
+        async function executeCrack() {
+            addLine('');
+            await typeWriter('[*] Lancement du cracker de mots de passe...', 'warning', 20);
+            await sleep(500);
+            
+            addLine('[*] Méthode: Brute force + Rainbow tables', 'warning');
+            addLine('[*] Vitesse: 2.5M hash/sec', 'warning');
+            await sleep(500);
+            
+            const passwords = [
+                'admin:P@ssw0rd123',
+                'root:admin2024',
+                'user01:letmein',
+                'dbadmin:Sup3rS3cur3!'
+            ];
+            
+            for (const pass of passwords) {
+                await sleep(600);
+                addLine(`    [CRACKED] ${pass}`, 'success');
+            }
+            
+            addLine('[+] 4 mots de passe récupérés!', 'success');
+            addLine('');
+        }
+
+        async function executeRansomware() {
+            addLine('');
+            addLine('[!!!] DÉPLOIEMENT DU RANSOMWARE [!!!]', 'error');
+            await sleep(500);
+            
+            addLine('[*] Chiffrement des fichiers...', 'error');
+            for (let i = 0; i < 10; i++) {
+                await sleep(200);
+                const files = Math.floor(Math.random() * 500) + 100;
+                addLine(`    Chiffré: ${files} fichiers`, 'error');
+            }
+            
+            await sleep(500);
+            addLine('[+] Système verrouillé', 'error');
+            addLine('[+] Message de rançon déployé', 'error');
+            addLine('[+] Bitcoin wallet: 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa', 'warning');
+            addLine('');
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        input.addEventListener('keydown', async (e) => {
+            if (e.key === 'Enter') {
+                const cmd = input.value.trim();
+                if (!cmd) return;
+
+                addLine(`root@BLACKHAT:~# ${cmd}`, 'warning');
+                input.value = '';
+
+                const parts = cmd.split(' ');
+                const command = parts[0].toLowerCase();
+                const arg = parts.slice(1).join(' ');
+
+                switch(command) {
+                    case '/ddos':
+                        await executeDDoS(arg || 'target.com');
+                        break;
+                    case '/scan':
+                        await executeScan(arg);
+                        break;
+                    case '/exploit':
+                        await executeExploit(arg || 'target.com');
+                        break;
+                    case '/botnet':
+                        addLine('');
+                        addLine(`[*] Taille du botnet: ${botnetSize} machines`, 'success');
+                        addLine('[*] Origine: Europe, Asie, Amérique', 'success');
+                        addLine('[*] Type: IoT devices, Servers, Workstations', 'success');
+                        addLine('');
+                        break;
+                    case '/payload':
+                        await executePayload();
+                        break;
+                    case '/crack':
+                        await executeCrack();
+                        break;
+                    case '/ransomware':
+                        await executeRansomware();
+                        break;
+                    case '/help':
+                        addLine('');
+                        addLine('=== COMMANDES DISPONIBLES ===', 'success');
+                        addLine('/ddos [target] - Lance une attaque DDoS massive');
+                        addLine('/scan [ip] - Scanne un réseau pour trouver des vulnérabilités');
+                        addLine('/exploit [target] - Exploite les failles trouvées');
+                        addLine('/botnet - Affiche les stats du botnet');
+                        addLine('/payload - Déploie un payload malveillant');
+                        addLine('/crack - Cracke des mots de passe');
+                        addLine('/ransomware - Déploie un ransomware');
+                        addLine('/help - Affiche cette aide');
+                        addLine('');
+                        break;
+                    default:
+                        addLine(`Commande inconnue: ${command}`, 'error');
+                        addLine('Tapez /help pour voir les commandes disponibles', 'warning');
+                        addLine('');
+                }
+            }
+        });
+
+        // Animation Matrix
         const canvas = document.getElementById('matrix');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
@@ -304,8 +515,9 @@
 
         setInterval(drawMatrix, 50);
 
-        // Démarre automatiquement après 2 secondes
-        setTimeout(startHack, 2000);
+        // Focus automatique sur l'input
+        input.focus();
+        document.addEventListener('click', () => input.focus());
     </script>
 </body>
 </html>
