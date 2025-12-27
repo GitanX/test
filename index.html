@@ -20,7 +20,7 @@
         }
 
         .container {
-            max-width: 900px;
+            max-width: 1100px;
             margin: 0 auto;
         }
 
@@ -47,7 +47,7 @@
 
         .info-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
             margin-bottom: 20px;
         }
@@ -116,38 +116,69 @@
             background: rgba(255, 255, 255, 0.3);
             transform: scale(1.02);
         }
+
+        .status-ok {
+            color: #4ade80;
+        }
+
+        .status-error {
+            color: #f87171;
+        }
+
+        .mini-text {
+            font-size: 0.8em;
+            word-break: break-all;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
             <h1>🔍 GitanX</h1>
-            <p>Analyseur d'Informations Système</p>
+            <p>Analyseur d'Informations Système - Données Réelles</p>
         </div>
 
-        <div id="loading" class="loading">Chargement des informations...</div>
+        <div id="loading" class="loading">⏳ Chargement des informations réelles...</div>
         <div id="content" style="display: none;">
             <div class="info-grid">
+                <!-- Carte IP et Réseau -->
                 <div class="info-card">
-                    <h3><span class="icon">🌐</span> Réseau</h3>
+                    <h3><span class="icon">🌐</span> IP & Réseau</h3>
                     <div class="info-item">
-                        <span class="info-label">IP Publique:</span>
-                        <span id="ip">Chargement...</span>
+                        <span class="info-label">IP Publique IPv4:</span>
+                        <span id="ipv4">Chargement...</span>
                     </div>
                     <div class="info-item">
-                        <span class="info-label">Pays:</span>
-                        <span id="country">-</span>
+                        <span class="info-label">IP Publique IPv6:</span>
+                        <span id="ipv6" class="mini-text">Chargement...</span>
                     </div>
                     <div class="info-item">
-                        <span class="info-label">Ville:</span>
-                        <span id="city">-</span>
+                        <span class="info-label">Localisation:</span>
+                        <span id="location">-</span>
                     </div>
                     <div class="info-item">
-                        <span class="info-label">FAI:</span>
+                        <span class="info-label">Code Postal:</span>
+                        <span id="postal">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Coordonnées GPS:</span>
+                        <span id="coords">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">FAI / ISP:</span>
                         <span id="isp">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">ASN:</span>
+                        <span id="asn">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Type de connexion:</span>
+                        <span id="connectionType">-</span>
                     </div>
                 </div>
 
+                <!-- Carte Navigateur -->
                 <div class="info-card">
                     <h3><span class="icon">💻</span> Navigateur</h3>
                     <div class="info-item">
@@ -155,15 +186,24 @@
                         <span id="browser">-</span>
                     </div>
                     <div class="info-item">
-                        <span class="info-label">Version:</span>
+                        <span class="info-label">Version complète:</span>
                         <span id="browserVersion">-</span>
                     </div>
                     <div class="info-item">
+                        <span class="info-label">Moteur:</span>
+                        <span id="engine">-</span>
+                    </div>
+                    <div class="info-item">
                         <span class="info-label">User Agent:</span>
-                        <span id="userAgent" style="font-size: 0.85em; word-break: break-all;">-</span>
+                        <span id="userAgent" class="mini-text">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Do Not Track:</span>
+                        <span id="dnt">-</span>
                     </div>
                 </div>
 
+                <!-- Carte Système d'exploitation -->
                 <div class="info-card">
                     <h3><span class="icon">🖥️</span> Système</h3>
                     <div class="info-item">
@@ -171,28 +211,78 @@
                         <span id="os">-</span>
                     </div>
                     <div class="info-item">
+                        <span class="info-label">Version OS:</span>
+                        <span id="osVersion">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Architecture:</span>
+                        <span id="arch">-</span>
+                    </div>
+                    <div class="info-item">
                         <span class="info-label">Plateforme:</span>
                         <span id="platform">-</span>
                     </div>
                     <div class="info-item">
-                        <span class="info-label">Langue:</span>
+                        <span class="info-label">Vendor:</span>
+                        <span id="vendor">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Langue système:</span>
                         <span id="language">-</span>
                     </div>
                     <div class="info-item">
-                        <span class="info-label">Fuseau horaire:</span>
-                        <span id="timezone">-</span>
+                        <span class="info-label">Langues:</span>
+                        <span id="languages" class="mini-text">-</span>
                     </div>
                 </div>
 
+                <!-- Carte Matériel -->
+                <div class="info-card">
+                    <h3><span class="icon">⚡</span> Matériel</h3>
+                    <div class="info-item">
+                        <span class="info-label">Cœurs CPU:</span>
+                        <span id="cores">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Mémoire RAM:</span>
+                        <span id="memory">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">GPU:</span>
+                        <span id="gpu">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Max Touch Points:</span>
+                        <span id="touch">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Niveau batterie:</span>
+                        <span id="battery">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">En charge:</span>
+                        <span id="charging">-</span>
+                    </div>
+                </div>
+
+                <!-- Carte Écran -->
                 <div class="info-card">
                     <h3><span class="icon">📱</span> Écran</h3>
                     <div class="info-item">
-                        <span class="info-label">Résolution:</span>
+                        <span class="info-label">Résolution écran:</span>
                         <span id="screenRes">-</span>
                     </div>
                     <div class="info-item">
-                        <span class="info-label">Fenêtre:</span>
+                        <span class="info-label">Résolution disponible:</span>
+                        <span id="availRes">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Taille fenêtre:</span>
                         <span id="windowSize">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Pixel Ratio:</span>
+                        <span id="pixelRatio">-</span>
                     </div>
                     <div class="info-item">
                         <span class="info-label">Profondeur couleur:</span>
@@ -204,127 +294,336 @@
                     </div>
                 </div>
 
+                <!-- Carte Stockage -->
                 <div class="info-card">
-                    <h3><span class="icon">⚙️</span> Capacités</h3>
+                    <h3><span class="icon">💾</span> Stockage</h3>
                     <div class="info-item">
-                        <span class="info-label">Cookies:</span>
+                        <span class="info-label">Stockage estimé:</span>
+                        <span id="storageEstimate">Calcul...</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Quota disponible:</span>
+                        <span id="storageQuota">Calcul...</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Utilisé:</span>
+                        <span id="storageUsed">Calcul...</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Cookies activés:</span>
                         <span id="cookies">-</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">JavaScript:</span>
-                        <span>✅ Activé</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Connexion:</span>
-                        <span id="connection">-</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Mémoire:</span>
-                        <span id="memory">-</span>
                     </div>
                 </div>
 
+                <!-- Carte Localisation & Temps -->
                 <div class="info-card">
-                    <h3><span class="icon">🕐</span> Temps</h3>
+                    <h3><span class="icon">🕐</span> Localisation & Temps</h3>
                     <div class="info-item">
                         <span class="info-label">Heure locale:</span>
                         <span id="localTime">-</span>
                     </div>
                     <div class="info-item">
-                        <span class="info-label">Date:</span>
+                        <span class="info-label">Date complète:</span>
                         <span id="date">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Fuseau horaire:</span>
+                        <span id="timezone">-</span>
                     </div>
                     <div class="info-item">
                         <span class="info-label">Décalage UTC:</span>
                         <span id="utcOffset">-</span>
                     </div>
+                    <div class="info-item">
+                        <span class="info-label">Position GPS:</span>
+                        <span id="geoLocation">Demande...</span>
+                    </div>
+                </div>
+
+                <!-- Carte Sécurité -->
+                <div class="info-card">
+                    <h3><span class="icon">🔒</span> Sécurité</h3>
+                    <div class="info-item">
+                        <span class="info-label">HTTPS:</span>
+                        <span id="https">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Cookies tiers:</span>
+                        <span id="thirdPartyCookies">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">WebRTC:</span>
+                        <span id="webrtc">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Canvas fingerprint:</span>
+                        <span id="canvas" class="mini-text">-</span>
+                    </div>
                 </div>
             </div>
 
-            <button class="btn" onclick="location.reload()">🔄 Rafraîchir les informations</button>
+            <button class="btn" onclick="location.reload()">🔄 Rafraîchir toutes les données</button>
         </div>
     </div>
 
     <script>
-        // Fonction pour détecter le navigateur
+        // Détection détaillée du navigateur
         function detectBrowser() {
             const ua = navigator.userAgent;
-            let browser = "Inconnu", version = "Inconnu";
+            let browser = "Inconnu", version = "Inconnu", engine = "Inconnu";
             
             if (ua.includes("Firefox/")) {
                 browser = "Firefox";
-                version = ua.match(/Firefox\/(\d+\.\d+)/)[1];
+                version = ua.match(/Firefox\/([\d.]+)/)[1];
+                engine = "Gecko";
             } else if (ua.includes("Edg/")) {
-                browser = "Edge";
-                version = ua.match(/Edg\/(\d+\.\d+)/)[1];
+                browser = "Microsoft Edge";
+                version = ua.match(/Edg\/([\d.]+)/)[1];
+                engine = "Blink";
+            } else if (ua.includes("OPR/") || ua.includes("Opera/")) {
+                browser = "Opera";
+                version = ua.match(/(?:OPR|Opera)\/([\d.]+)/)[1];
+                engine = "Blink";
             } else if (ua.includes("Chrome/") && !ua.includes("Edg/")) {
-                browser = "Chrome";
-                version = ua.match(/Chrome\/(\d+\.\d+)/)[1];
+                browser = "Google Chrome";
+                version = ua.match(/Chrome\/([\d.]+)/)[1];
+                engine = "Blink";
             } else if (ua.includes("Safari/") && !ua.includes("Chrome/")) {
                 browser = "Safari";
-                version = ua.match(/Version\/(\d+\.\d+)/)[1];
+                version = ua.match(/Version\/([\d.]+)/)?.[1] || "Inconnu";
+                engine = "WebKit";
             }
             
-            return { browser, version };
+            return { browser, version, engine };
         }
 
-        // Fonction pour détecter l'OS
+        // Détection détaillée de l'OS
         function detectOS() {
             const ua = navigator.userAgent;
-            if (ua.includes("Win")) return "Windows";
-            if (ua.includes("Mac")) return "MacOS";
-            if (ua.includes("Linux")) return "Linux";
-            if (ua.includes("Android")) return "Android";
-            if (ua.includes("iOS")) return "iOS";
-            return "Inconnu";
+            let os = "Inconnu", version = "";
+            
+            if (ua.includes("Windows NT 10.0")) { os = "Windows 10/11"; version = "NT 10.0"; }
+            else if (ua.includes("Windows NT 6.3")) { os = "Windows 8.1"; version = "NT 6.3"; }
+            else if (ua.includes("Windows NT 6.2")) { os = "Windows 8"; version = "NT 6.2"; }
+            else if (ua.includes("Windows NT 6.1")) { os = "Windows 7"; version = "NT 6.1"; }
+            else if (ua.includes("Mac OS X")) {
+                os = "MacOS";
+                const match = ua.match(/Mac OS X ([\d_]+)/);
+                version = match ? match[1].replace(/_/g, '.') : "";
+            }
+            else if (ua.includes("Android")) {
+                os = "Android";
+                const match = ua.match(/Android ([\d.]+)/);
+                version = match ? match[1] : "";
+            }
+            else if (ua.includes("Linux")) { os = "Linux"; }
+            else if (ua.includes("iOS") || ua.includes("iPhone") || ua.includes("iPad")) {
+                os = "iOS";
+                const match = ua.match(/OS ([\d_]+)/);
+                version = match ? match[1].replace(/_/g, '.') : "";
+            }
+            
+            return { os, version };
         }
 
-        // Charger les informations
+        // Canvas Fingerprint
+        function getCanvasFingerprint() {
+            try {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = 200;
+                canvas.height = 50;
+                ctx.textBaseline = 'top';
+                ctx.font = '14px Arial';
+                ctx.fillStyle = '#f60';
+                ctx.fillRect(125, 1, 62, 20);
+                ctx.fillStyle = '#069';
+                ctx.fillText('GitanX 🔍', 2, 15);
+                return canvas.toDataURL().substring(0, 50) + '...';
+            } catch(e) {
+                return 'Erreur';
+            }
+        }
+
+        // WebRTC pour IP locale
+        async function getLocalIPs() {
+            return new Promise((resolve) => {
+                const ips = [];
+                const pc = new RTCPeerConnection({iceServers: []});
+                pc.createDataChannel('');
+                pc.createOffer().then(offer => pc.setLocalDescription(offer));
+                
+                pc.onicecandidate = (ice) => {
+                    if (!ice || !ice.candidate || !ice.candidate.candidate) {
+                        resolve(ips);
+                        return;
+                    }
+                    const parts = ice.candidate.candidate.split(' ');
+                    const ip = parts[4];
+                    if (ip && !ips.includes(ip)) ips.push(ip);
+                };
+                
+                setTimeout(() => {
+                    pc.close();
+                    resolve(ips);
+                }, 2000);
+            });
+        }
+
+        // Obtenir le GPU
+        function getGPU() {
+            try {
+                const canvas = document.createElement('canvas');
+                const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+                if (gl) {
+                    const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+                    if (debugInfo) {
+                        return gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+                    }
+                }
+                return 'Non détecté';
+            } catch(e) {
+                return 'Erreur';
+            }
+        }
+
+        // Charger toutes les informations
         async function loadInfo() {
-            // Informations du navigateur
-            const { browser, version } = detectBrowser();
+            // Navigateur
+            const { browser, version, engine } = detectBrowser();
             document.getElementById('browser').textContent = browser;
             document.getElementById('browserVersion').textContent = version;
+            document.getElementById('engine').textContent = engine;
             document.getElementById('userAgent').textContent = navigator.userAgent;
+            document.getElementById('dnt').textContent = navigator.doNotTrack === '1' ? '✅ Activé' : '❌ Désactivé';
 
-            // Informations système
-            document.getElementById('os').textContent = detectOS();
+            // Système
+            const { os, version: osVersion } = detectOS();
+            document.getElementById('os').textContent = os;
+            document.getElementById('osVersion').textContent = osVersion || 'Non détecté';
+            document.getElementById('arch').textContent = navigator.platform.includes('64') ? '64-bit' : '32-bit';
             document.getElementById('platform').textContent = navigator.platform;
+            document.getElementById('vendor').textContent = navigator.vendor || 'Non spécifié';
             document.getElementById('language').textContent = navigator.language;
-            document.getElementById('timezone').textContent = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            document.getElementById('languages').textContent = navigator.languages.join(', ');
 
-            // Informations écran
+            // Matériel
+            document.getElementById('cores').textContent = navigator.hardwareConcurrency || 'Non détecté';
+            document.getElementById('memory').textContent = navigator.deviceMemory ? `${navigator.deviceMemory} GB` : 'Non détecté';
+            document.getElementById('gpu').textContent = getGPU();
+            document.getElementById('touch').textContent = navigator.maxTouchPoints || '0 (Pas tactile)';
+
+            // Batterie
+            if (navigator.getBattery) {
+                navigator.getBattery().then(battery => {
+                    document.getElementById('battery').textContent = `${Math.round(battery.level * 100)}%`;
+                    document.getElementById('charging').textContent = battery.charging ? '⚡ Oui' : '🔋 Non';
+                });
+            } else {
+                document.getElementById('battery').textContent = 'API non disponible';
+                document.getElementById('charging').textContent = 'API non disponible';
+            }
+
+            // Écran
             document.getElementById('screenRes').textContent = `${screen.width}x${screen.height}`;
+            document.getElementById('availRes').textContent = `${screen.availWidth}x${screen.availHeight}`;
             document.getElementById('windowSize').textContent = `${window.innerWidth}x${window.innerHeight}`;
+            document.getElementById('pixelRatio').textContent = window.devicePixelRatio || '1';
             document.getElementById('colorDepth').textContent = `${screen.colorDepth} bits`;
-            document.getElementById('orientation').textContent = screen.orientation?.type || "Non disponible";
+            document.getElementById('orientation').textContent = screen.orientation?.type || window.orientation !== undefined ? 'Portrait/Paysage' : 'Non détecté';
 
-            // Capacités
-            document.getElementById('cookies').textContent = navigator.cookieEnabled ? "✅ Activés" : "❌ Désactivés";
-            document.getElementById('connection').textContent = navigator.connection?.effectiveType || "Non disponible";
-            document.getElementById('memory').textContent = navigator.deviceMemory ? `${navigator.deviceMemory} GB` : "Non disponible";
+            // Stockage
+            if (navigator.storage && navigator.storage.estimate) {
+                navigator.storage.estimate().then(estimate => {
+                    const quota = (estimate.quota / 1024 / 1024 / 1024).toFixed(2);
+                    const usage = (estimate.usage / 1024 / 1024).toFixed(2);
+                    document.getElementById('storageQuota').textContent = `${quota} GB`;
+                    document.getElementById('storageUsed').textContent = `${usage} MB`;
+                    document.getElementById('storageEstimate').textContent = `${((estimate.usage / estimate.quota) * 100).toFixed(2)}% utilisé`;
+                });
+            } else {
+                document.getElementById('storageEstimate').textContent = 'API non disponible';
+                document.getElementById('storageQuota').textContent = 'API non disponible';
+                document.getElementById('storageUsed').textContent = 'API non disponible';
+            }
+            document.getElementById('cookies').textContent = navigator.cookieEnabled ? '✅ Activés' : '❌ Désactivés';
 
             // Temps
             function updateTime() {
                 const now = new Date();
                 document.getElementById('localTime').textContent = now.toLocaleTimeString('fr-FR');
-                document.getElementById('date').textContent = now.toLocaleDateString('fr-FR');
-                document.getElementById('utcOffset').textContent = `UTC${now.getTimezoneOffset() / -60 >= 0 ? '+' : ''}${now.getTimezoneOffset() / -60}`;
+                document.getElementById('date').textContent = now.toLocaleDateString('fr-FR', { 
+                    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' 
+                });
+                document.getElementById('timezone').textContent = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                const offset = -now.getTimezoneOffset() / 60;
+                document.getElementById('utcOffset').textContent = `UTC${offset >= 0 ? '+' : ''}${offset}`;
             }
             updateTime();
             setInterval(updateTime, 1000);
 
-            // IP et localisation via API
+            // Géolocalisation
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        document.getElementById('geoLocation').innerHTML = `<span class="status-ok">✅ Lat: ${position.coords.latitude.toFixed(4)}, Lon: ${position.coords.longitude.toFixed(4)}</span>`;
+                    },
+                    (error) => {
+                        document.getElementById('geoLocation').innerHTML = `<span class="status-error">❌ Refusé ou erreur</span>`;
+                    }
+                );
+            } else {
+                document.getElementById('geoLocation').textContent = 'API non disponible';
+            }
+
+            // Sécurité
+            document.getElementById('https').textContent = location.protocol === 'https:' ? '✅ Sécurisé' : '❌ Non sécurisé';
+            document.getElementById('canvas').textContent = getCanvasFingerprint();
+            
+            // WebRTC
+            const localIPs = await getLocalIPs();
+            document.getElementById('webrtc').textContent = localIPs.length > 0 ? `✅ Activé (${localIPs.join(', ')})` : '❌ Bloqué';
+
+            // Test cookies tiers
+            document.getElementById('thirdPartyCookies').textContent = 'Test en cours...';
+
+            // IP et localisation - Essayer plusieurs APIs
             try {
-                const response = await fetch('https://ipapi.co/json/');
-                const data = await response.json();
-                document.getElementById('ip').textContent = data.ip || "Non disponible";
-                document.getElementById('country').textContent = `${data.country_name || '-'} (${data.country_code || '-'})`;
-                document.getElementById('city').textContent = `${data.city || '-'}, ${data.region || '-'}`;
-                document.getElementById('isp').textContent = data.org || "Non disponible";
+                // Essai 1: ipapi.co
+                const response1 = await fetch('https://ipapi.co/json/');
+                const data1 = await response1.json();
+                
+                document.getElementById('ipv4').innerHTML = `<span class="status-ok">${data1.ip}</span>`;
+                document.getElementById('location').textContent = `${data1.city}, ${data1.region}, ${data1.country_name}`;
+                document.getElementById('postal').textContent = data1.postal || 'Non disponible';
+                document.getElementById('coords').textContent = `${data1.latitude}, ${data1.longitude}`;
+                document.getElementById('isp').textContent = data1.org || 'Non disponible';
+                document.getElementById('asn').textContent = data1.asn || 'Non disponible';
+                document.getElementById('connectionType').textContent = navigator.connection?.effectiveType?.toUpperCase() || 'Non détecté';
+
+                // Essai IPv6
+                try {
+                    const response2 = await fetch('https://api64.ipify.org?format=json');
+                    const data2 = await response2.json();
+                    if (data2.ip.includes(':')) {
+                        document.getElementById('ipv6').innerHTML = `<span class="status-ok">${data2.ip}</span>`;
+                    } else {
+                        document.getElementById('ipv6').innerHTML = '<span class="status-error">Non disponible</span>';
+                    }
+                } catch(e) {
+                    document.getElementById('ipv6').innerHTML = '<span class="status-error">Non disponible</span>';
+                }
+
             } catch (error) {
-                document.getElementById('ip').textContent = "Erreur de chargement";
-                console.error('Erreur:', error);
+                // Essai de secours avec ipify
+                try {
+                    const response = await fetch('https://api.ipify.org?format=json');
+                    const data = await response.json();
+                    document.getElementById('ipv4').innerHTML = `<span class="status-ok">${data.ip}</span>`;
+                    document.getElementById('location').textContent = 'Utilisez ipapi.co pour plus de détails';
+                } catch(e2) {
+                    document.getElementById('ipv4').innerHTML = '<span class="status-error">Erreur de chargement</span>';
+                }
             }
 
             // Afficher le contenu
