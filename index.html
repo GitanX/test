@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitanX - Informations Système</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .info-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .info-card h3 {
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-card .icon {
+            font-size: 1.5em;
+        }
+
+        .info-item {
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            font-size: 0.95em;
+        }
+
+        .info-label {
+            font-weight: bold;
+            color: #ffd700;
+            margin-right: 8px;
+        }
+
+        .loading {
+            text-align: center;
+            font-size: 1.2em;
+            padding: 20px;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 GitanX</h1>
+            <p>Analyseur d'Informations Système</p>
+        </div>
+
+        <div id="loading" class="loading">Chargement des informations...</div>
+        <div id="content" style="display: none;">
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3><span class="icon">🌐</span> Réseau</h3>
+                    <div class="info-item">
+                        <span class="info-label">IP Publique:</span>
+                        <span id="ip">Chargement...</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Pays:</span>
+                        <span id="country">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Ville:</span>
+                        <span id="city">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">FAI:</span>
+                        <span id="isp">-</span>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <h3><span class="icon">💻</span> Navigateur</h3>
+                    <div class="info-item">
+                        <span class="info-label">Navigateur:</span>
+                        <span id="browser">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Version:</span>
+                        <span id="browserVersion">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">User Agent:</span>
+                        <span id="userAgent" style="font-size: 0.85em; word-break: break-all;">-</span>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <h3><span class="icon">🖥️</span> Système</h3>
+                    <div class="info-item">
+                        <span class="info-label">OS:</span>
+                        <span id="os">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Plateforme:</span>
+                        <span id="platform">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Langue:</span>
+                        <span id="language">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Fuseau horaire:</span>
+                        <span id="timezone">-</span>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <h3><span class="icon">📱</span> Écran</h3>
+                    <div class="info-item">
+                        <span class="info-label">Résolution:</span>
+                        <span id="screenRes">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Fenêtre:</span>
+                        <span id="windowSize">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Profondeur couleur:</span>
+                        <span id="colorDepth">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Orientation:</span>
+                        <span id="orientation">-</span>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <h3><span class="icon">⚙️</span> Capacités</h3>
+                    <div class="info-item">
+                        <span class="info-label">Cookies:</span>
+                        <span id="cookies">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">JavaScript:</span>
+                        <span>✅ Activé</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Connexion:</span>
+                        <span id="connection">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Mémoire:</span>
+                        <span id="memory">-</span>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <h3><span class="icon">🕐</span> Temps</h3>
+                    <div class="info-item">
+                        <span class="info-label">Heure locale:</span>
+                        <span id="localTime">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Date:</span>
+                        <span id="date">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Décalage UTC:</span>
+                        <span id="utcOffset">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn" onclick="location.reload()">🔄 Rafraîchir les informations</button>
+        </div>
+    </div>
+
+    <script>
+        // Fonction pour détecter le navigateur
+        function detectBrowser() {
+            const ua = navigator.userAgent;
+            let browser = "Inconnu", version = "Inconnu";
+            
+            if (ua.includes("Firefox/")) {
+                browser = "Firefox";
+                version = ua.match(/Firefox\/(\d+\.\d+)/)[1];
+            } else if (ua.includes("Edg/")) {
+                browser = "Edge";
+                version = ua.match(/Edg\/(\d+\.\d+)/)[1];
+            } else if (ua.includes("Chrome/") && !ua.includes("Edg/")) {
+                browser = "Chrome";
+                version = ua.match(/Chrome\/(\d+\.\d+)/)[1];
+            } else if (ua.includes("Safari/") && !ua.includes("Chrome/")) {
+                browser = "Safari";
+                version = ua.match(/Version\/(\d+\.\d+)/)[1];
+            }
+            
+            return { browser, version };
+        }
+
+        // Fonction pour détecter l'OS
+        function detectOS() {
+            const ua = navigator.userAgent;
+            if (ua.includes("Win")) return "Windows";
+            if (ua.includes("Mac")) return "MacOS";
+            if (ua.includes("Linux")) return "Linux";
+            if (ua.includes("Android")) return "Android";
+            if (ua.includes("iOS")) return "iOS";
+            return "Inconnu";
+        }
+
+        // Charger les informations
+        async function loadInfo() {
+            // Informations du navigateur
+            const { browser, version } = detectBrowser();
+            document.getElementById('browser').textContent = browser;
+            document.getElementById('browserVersion').textContent = version;
+            document.getElementById('userAgent').textContent = navigator.userAgent;
+
+            // Informations système
+            document.getElementById('os').textContent = detectOS();
+            document.getElementById('platform').textContent = navigator.platform;
+            document.getElementById('language').textContent = navigator.language;
+            document.getElementById('timezone').textContent = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+            // Informations écran
+            document.getElementById('screenRes').textContent = `${screen.width}x${screen.height}`;
+            document.getElementById('windowSize').textContent = `${window.innerWidth}x${window.innerHeight}`;
+            document.getElementById('colorDepth').textContent = `${screen.colorDepth} bits`;
+            document.getElementById('orientation').textContent = screen.orientation?.type || "Non disponible";
+
+            // Capacités
+            document.getElementById('cookies').textContent = navigator.cookieEnabled ? "✅ Activés" : "❌ Désactivés";
+            document.getElementById('connection').textContent = navigator.connection?.effectiveType || "Non disponible";
+            document.getElementById('memory').textContent = navigator.deviceMemory ? `${navigator.deviceMemory} GB` : "Non disponible";
+
+            // Temps
+            function updateTime() {
+                const now = new Date();
+                document.getElementById('localTime').textContent = now.toLocaleTimeString('fr-FR');
+                document.getElementById('date').textContent = now.toLocaleDateString('fr-FR');
+                document.getElementById('utcOffset').textContent = `UTC${now.getTimezoneOffset() / -60 >= 0 ? '+' : ''}${now.getTimezoneOffset() / -60}`;
+            }
+            updateTime();
+            setInterval(updateTime, 1000);
+
+            // IP et localisation via API
+            try {
+                const response = await fetch('https://ipapi.co/json/');
+                const data = await response.json();
+                document.getElementById('ip').textContent = data.ip || "Non disponible";
+                document.getElementById('country').textContent = `${data.country_name || '-'} (${data.country_code || '-'})`;
+                document.getElementById('city').textContent = `${data.city || '-'}, ${data.region || '-'}`;
+                document.getElementById('isp').textContent = data.org || "Non disponible";
+            } catch (error) {
+                document.getElementById('ip').textContent = "Erreur de chargement";
+                console.error('Erreur:', error);
+            }
+
+            // Afficher le contenu
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('content').style.display = 'block';
+        }
+
+        // Charger au démarrage
+        loadInfo();
+    </script>
+</body>
+</html>
